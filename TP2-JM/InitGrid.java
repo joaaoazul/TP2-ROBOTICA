@@ -30,6 +30,8 @@ public class InitGrid {
         for (int i = 1; i < gridHeight + 1; i++) {
             System.out.printf("%02d", i);
         }
+
+
         
     }
 
