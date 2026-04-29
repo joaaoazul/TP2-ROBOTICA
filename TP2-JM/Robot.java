@@ -32,4 +32,10 @@ public class Robot extends Entity {
 
 }
 
+//ficam a faltar os getters e setters
+
+// TODO: getters - getId, getCharge, getState, getPhase, getChargingStation, getCarriedObject, getCurrentTask, getCurrentPath, getCurrentPathIndex
+// TODO: setters - setCharge, setState, setPhase, setCurrentTask, setCarriedObject, setCurrentPath, setCurrentPathIndex
+// TODO: lógica - executeStep(Project project), tryPickUpTask(Project project), moveAlongPath(), pickUpObject(), dropObject(), canCompleteTask(Task task, Project project)
+
 
