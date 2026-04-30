@@ -30,6 +30,18 @@ public class Robot extends Entity {
         this.chargingStation = chargingStation;
     }
 
+
+    public int getId() {return this.id; }
+
+    public double getCharge() {return this.charge;}
+
+    public RobotPhase getPhase() { return this.phase; }
+
+    public RobotState getState() {return this.state;}
+
+    public ChargingStation getChargingStation() {return this.chargingStation;}
+
+    public
 }
 
 //ficam a faltar os getters e setters
