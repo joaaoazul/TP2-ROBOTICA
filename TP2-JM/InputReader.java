@@ -4,6 +4,7 @@ import java.util.List;
 //Apenas validar inputs de range, se é number, etc
 //Não há validações de funcionalidade aqui
 
+//TODO: Lógica dos métodos
 public class InputReader {
 
     private Scanner scanner = new Scanner(System.in);
