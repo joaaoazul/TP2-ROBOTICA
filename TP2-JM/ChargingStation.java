@@ -4,7 +4,7 @@
 
 public class ChargingStation extends Entity {
 
-    private final int robotId;
+    private final int roboId;
 
 
     public ChargingStation(Position position, int roboId){
@@ -14,6 +14,11 @@ public class ChargingStation extends Entity {
 
     public int getRoboId () {
         return this.roboId;
+    }
+    
+    @Override
+    public String getSymbol(){
+        return "S" + roboId;
     }
 
 }
