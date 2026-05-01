@@ -4,7 +4,8 @@
 
 public class ChargingStation extends Entity {
 
-    private int roboId;
+    private final int robotId;
+
 
     public ChargingStation(Position position, int roboId){
         super(position);

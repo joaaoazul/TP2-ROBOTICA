@@ -6,4 +6,10 @@ public class Obstacle extends Entity {
        super(position);
    }
 
+   //denominar o simbolo do obstaculo
+   @Override
+   public String getSymbol() {
+    return "##";
+   }
+
 }

@@ -3,7 +3,7 @@
 
 public class InitObject extends Entity {
 
-    private int id;
+    private final int id; //o id vai ser sempre o mesmo
     private boolean beingCarried = false;
 
     public InitObject(Position position, int id){
@@ -12,7 +12,7 @@ public class InitObject extends Entity {
     }
 
     public int getId(){
-        return this.id;
+        return id;
     }
 
     public boolean isBeingCarried(){
@@ -23,6 +23,9 @@ public class InitObject extends Entity {
         this.beingCarried = beingCarried;
     }
 
-
+    @Override
+    public String getSymbol(){
+        return "O" + id;
+    }
 
 }
