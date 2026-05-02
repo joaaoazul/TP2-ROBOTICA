@@ -4,7 +4,6 @@ import java.util.ArrayList;
 // Valida formato das entidades e requisitos mínimos
 // Validações de coordenadas e dimensões ficam no InitGrid
 
-//TODO: Lógica dos métodos
 public class InputReader {
 
     private Scanner scanner = new Scanner(System.in);
@@ -21,17 +20,18 @@ public class InputReader {
 
     //readProject é o único público porque vai ser chamado de fora
     public Project readProject(){
-
+        //TODO: FALTA FAZER ESTE
+        return null;
     }
 
     private int[] readDimensions(){
-        //recebe o números em string, separa-os e guarda nesse array
+        //recebe os números em string, separa-os e guarda nesse array
         String line = scanner.nextLine();
         String[] input = line.trim().split(" ");
         if(input.length != 2){
             System.out.println("Invalid dimensions format.");
+            return null;
         }
-
         //tenta converter para inteiro e verifica dimensões, se não der, manda erro
         try{
             int width = Integer.parseInt(input[0]);
@@ -39,21 +39,23 @@ public class InputReader {
 
             if (width < 5 || height < 5) {
                 System.out.println("Minimum dimensions allowed is 5 by 5.");
+                return null;
             }
             if (width > 99 || height > 99) {
                 System.out.println("Maximum dimensions allowed is 99 by 99.");
+                return null;
             }
-
             return new int[]{width, height};
         } catch (NumberFormatException e) {
             System.out.println("Invalid dimensions format.");
             return null;
         }
-
-
     }
 
     private void readEntities(int width, int height){
+        int entityCounter = 0;
+        int robotCounter = 0;
+        int objectCounter = 0;
 
         while(true) {
             String start = scanner.nextLine();
@@ -65,77 +67,109 @@ public class InputReader {
             }
 
             String[] entityInput = start.trim().split(" ");
+            entityCounter += 1;
 
+            if (entityInput[0].equals("OBS")) {
+                Obstacle o = parseObstacle(entityInput, entityCounter, width, height);
+                if (o != null) obstacles.add(o);
 
-            if(entityInput[0].equals("OBS")){
-                if (entityInput.length != 3){
-                    System.out.println("Invalid entity format at entity " + entityCounter);
-                    continue;
+            } else if (entityInput[0].equals("ROB")) {
+                robotCounter += 1;
+                Robot r = parseRobot(entityInput, entityCounter, width, height, robotCounter);
+                if (r != null) robots.add(r);
 
-                }
-                try{
-                    int x = Integer.parseInt(entityInput[1]);
-                    int y = Integer.parseInt(entityInput[2]);
+            } else if (entityInput[0].equals("OBJ")) {
+                objectCounter += 1;
+                InitObject obj = parseObject(entityInput, entityCounter, width, height, objectCounter);
+                if (obj != null) objects.add(obj);
 
-                    if (!isValidCoordinates(x, y, width, height)) {
-                        System.out.println("Invalid entity coordinates at entity " + entityCounter);
-                        continue;
-                    }
-
-                    obstacles.add(new Obstacle(new Position(x, y)));
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid entity coordinates at entity " + entityCounter);
-                }
-
+            } else {
+                System.out.println("Unknown entity type \"" + entityInput[0] + "\" at entity " + entityCounter);
             }
-
-
         }
 
-
-
-
-        // TODO: parseObstacle - verificar 3 partes, parseInt x e y, isValidCoordinates, return new Obstacle ou null
-// TODO: parseObject - igual ao parseObstacle mas com id de objeto, return new InitObject ou null
-// TODO: parseRobot - verificar 5 partes, parseInt x y cs-x cs-y, isValidCoordinates para robô e estação, criar ChargingStation, return new Robot ou null
-// TODO: isValidCoordinates - verificar se x >= 1, y >= 1, x <= width, y <= height
-// TODO: isPositionOccupied - percorrer lista de entidades e ver se alguma tem a mesma posição
-// TODO: readProject - chamar readDimensions, chamar readEntities, criar e devolver Project
-// TODO: readEntities - adicionar else if para OBJ e ROB, adicionar else para tipo desconhecido, verificar no fim se tem pelo menos 1 robot e 1 objeto
-
+        //verifica se tem pelo menos 1 robô e 1 objeto
+        if (robots.isEmpty() || objects.isEmpty()) {
+            System.out.println("At least 1 robot and 1 object are required.");
+        }
     }
 
     private Obstacle parseObstacle(String[] parts, int entityCounter, int width, int height){
+        if(parts.length != 3) {
+            System.out.println("Invalid entity format at entity " + entityCounter);
+            return null;
+        }
+        try{
+            int x = Integer.parseInt(parts[1]);
+            int y = Integer.parseInt(parts[2]);
 
-                if(parts.length != 3) { System.out.println("");}
-                try{
-                    int x = Integer.parseInt(parts[1]);
-                    int y = Integer.parseInt(parts[2]);
+            if (!isValidCoordinates(x, y, width, height)) {
+                System.out.println("Invalid entity coordinates at entity " + entityCounter);
+                return null;
+            }
+            return new Obstacle(new Position(x, y));
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid entity coordinates at entity " + entityCounter);
+            return null;
+        }
+    }
 
-                    if (!isValidCoordinates(x, y, width, height)) {
-                        System.out.println("Invalid entity coordinates at entity " + entityCounter);
-                        return null;
-                    }
+    private InitObject parseObject(String[] parts, int entityCounter, int width, int height, int objectId) {
+        if(parts.length != 3) {
+            System.out.println("Invalid entity format at entity " + entityCounter);
+            return null;
+        }
+        try{
+            int x = Integer.parseInt(parts[1]);
+            int y = Integer.parseInt(parts[2]);
 
-                    return new Obstacle(Position position);
-                } catch (NumberFormatException e) {
-                    System.out.println("Invalid entity coordinates at entity " + entityCounter);
-                    return null;
-                }
+            if (!isValidCoordinates(x, y, width, height)) {
+                System.out.println("Invalid entity coordinates at entity " + entityCounter);
+                return null;
+            }
+            return new InitObject(new Position(x, y), objectId);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid entity coordinates at entity " + entityCounter);
+            return null;
+        }
+    }
 
+    private Robot parseRobot(String[] parts, int entityCounter, int width, int height, int robotId) {
+        if(parts.length != 5) {
+            System.out.println("Invalid entity format at entity " + entityCounter);
+            return null;
+        }
+        try {
+            int x = Integer.parseInt(parts[1]);
+            int y = Integer.parseInt(parts[2]);
+            int csx = Integer.parseInt(parts[3]);
+            int csy = Integer.parseInt(parts[4]);
+
+            if(!isValidCoordinates(x, y, width, height) || !isValidCoordinates(csx, csy, width, height)){
+                System.out.println("Invalid entity coordinates at entity " + entityCounter);
+                return null;
             }
 
+            ChargingStation cs = new ChargingStation(new Position(csx, csy), robotId);
+            return new Robot(new Position(x, y), robotId, cs);
 
+        } catch(NumberFormatException e){
+            System.out.println("Invalid entity coordinates at entity " + entityCounter);
+            return null;
         }
-
     }
 
     //métodos de apoio
     private boolean isValidCoordinates(int x, int y, int width, int height){
-
+        return x >= 1 && y >= 1 && x <= width && y <= height;
     }
 
     private boolean isPositionOccupied(int x, int y, List<Entity> entities){
-
+        for(Entity e : entities){
+            if(e.getPosition().getX() == x && e.getPosition().getY() == y){
+                return true;
+            }
+        }
+        return false;
     }
 }
