@@ -19,12 +19,12 @@ public class InputReader {
     //métodos principais da classe
 
     //readProject é o único público porque vai ser chamado de fora
-    public Project readProject(){
+    public Project projectsEngine(){
         //TODO: FALTA FAZER ESTE
         return null;
     }
 
-    private int[] readDimensions(){
+    private int[] dimensionsEngine(){
         //recebe os números em string, separa-os e guarda nesse array
         String line = scanner.nextLine();
         String[] input = line.trim().split(" ");
@@ -47,44 +47,44 @@ public class InputReader {
             }
             return new int[]{width, height};
         } catch (NumberFormatException e) {
-            System.out.println("Invalid dimensions format.");
+            System.out.println("Invalid dimensions.");
             return null;
         }
     }
 
-    private void readEntities(int width, int height){
+    private void entityEngine(int width, int height){
         int entityCounter = 0;
         int robotCounter = 0;
         int objectCounter = 0;
 
         while(true) {
-            String start = scanner.nextLine();
-            if(start.equals("start")) {
+            String inputReader = scanner.nextLine();
+            if(inputReader.equals("start")) {
                 if (entityCounter == 0) {
                     System.out.println("Expected entity name.");
                 }
                 break;
             }
 
-            String[] entityInput = start.trim().split(" ");
+            String[] inputList = inputReader.trim().split(" ");
             entityCounter += 1;
 
-            if (entityInput[0].equals("OBS")) {
-                Obstacle o = parseObstacle(entityInput, entityCounter, width, height);
+            if (inputList[0].equals("OBS")) {
+                Obstacle o = obstacleEngine(inputList, entityCounter, width, height);
                 if (o != null) obstacles.add(o);
 
-            } else if (entityInput[0].equals("ROB")) {
+            } else if (inputList[0].equals("ROB")) {
                 robotCounter += 1;
-                Robot r = parseRobot(entityInput, entityCounter, width, height, robotCounter);
+                Robot r = roboEngine(inputList, entityCounter, width, height, robotCounter);
                 if (r != null) robots.add(r);
 
-            } else if (entityInput[0].equals("OBJ")) {
+            } else if (inputList[0].equals("OBJ")) {
                 objectCounter += 1;
-                InitObject obj = parseObject(entityInput, entityCounter, width, height, objectCounter);
+                InitObject obj = objectEngine(inputList, entityCounter, width, height, objectCounter);
                 if (obj != null) objects.add(obj);
 
             } else {
-                System.out.println("Unknown entity type \"" + entityInput[0] + "\" at entity " + entityCounter);
+                System.out.println("Unknown entity type \"" + inputList[0] + "\" at entity " + entityCounter);
             }
         }
 
@@ -94,7 +94,7 @@ public class InputReader {
         }
     }
 
-    private Obstacle parseObstacle(String[] parts, int entityCounter, int width, int height){
+    private Obstacle obstacleEngine(String[] parts, int entityCounter, int width, int height){
         if(parts.length != 3) {
             System.out.println("Invalid entity format at entity " + entityCounter);
             return null;
@@ -103,7 +103,7 @@ public class InputReader {
             int x = Integer.parseInt(parts[1]);
             int y = Integer.parseInt(parts[2]);
 
-            if (!isValidCoordinates(x, y, width, height)) {
+            if (!validationHelper(x, y, width, height)) {
                 System.out.println("Invalid entity coordinates at entity " + entityCounter);
                 return null;
             }
@@ -114,7 +114,7 @@ public class InputReader {
         }
     }
 
-    private InitObject parseObject(String[] parts, int entityCounter, int width, int height, int objectId) {
+    private InitObject objectEngine(String[] parts, int entityCounter, int width, int height, int objectId) {
         if(parts.length != 3) {
             System.out.println("Invalid entity format at entity " + entityCounter);
             return null;
@@ -123,7 +123,7 @@ public class InputReader {
             int x = Integer.parseInt(parts[1]);
             int y = Integer.parseInt(parts[2]);
 
-            if (!isValidCoordinates(x, y, width, height)) {
+            if (!validationHelper(x, y, width, height)) {
                 System.out.println("Invalid entity coordinates at entity " + entityCounter);
                 return null;
             }
@@ -134,7 +134,7 @@ public class InputReader {
         }
     }
 
-    private Robot parseRobot(String[] parts, int entityCounter, int width, int height, int robotId) {
+    private Robot roboEngine(String[] parts, int entityCounter, int width, int height, int robotId) {
         if(parts.length != 5) {
             System.out.println("Invalid entity format at entity " + entityCounter);
             return null;
@@ -145,7 +145,7 @@ public class InputReader {
             int csx = Integer.parseInt(parts[3]);
             int csy = Integer.parseInt(parts[4]);
 
-            if(!isValidCoordinates(x, y, width, height) || !isValidCoordinates(csx, csy, width, height)){
+            if(!validationHelper(x, y, width, height) || !validationHelper(csx, csy, width, height)){
                 System.out.println("Invalid entity coordinates at entity " + entityCounter);
                 return null;
             }
@@ -160,11 +160,11 @@ public class InputReader {
     }
 
     //métodos de apoio
-    private boolean isValidCoordinates(int x, int y, int width, int height){
+    private boolean validationHelper(int x, int y, int width, int height){
         return x >= 1 && y >= 1 && x <= width && y <= height;
     }
 
-    private boolean isPositionOccupied(int x, int y, List<Entity> entities){
+    private boolean positionOccupiedHelper(int x, int y, List<Entity> entities){
         for(Entity e : entities){
             if(e.getPosition().getX() == x && e.getPosition().getY() == y){
                 return true;
@@ -173,3 +173,14 @@ public class InputReader {
         return false;
     }
 }
+
+
+//TODO: Dimensões — 3 7 dá erro de mínimo
+//No teu código tens:
+//javaif (width < 5 || height < 5)
+//O input 3 7 — largura é 3, menor que 5 → correto, imprime o erro.
+//
+//Mas há um problema de lógica
+//No readDimensions quando as dimensões são inválidas (min ou max) imprimes o erro e fazes return null — mas o programa deve terminar ou continuar a pedir input?
+//Olhando para a tabela, parece que imprime o erro e termina — o Mooshak não mostra mais output depois do erro.
+//Isso significa que quando readProject recebe null do readDimensions deve terminar o programa com System.exit(0).
