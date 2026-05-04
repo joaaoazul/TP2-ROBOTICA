@@ -1,8 +1,0 @@
-7 5
-OBS 2 3
-ROB 1 4 1 2
-OBJ 4 3
-start
-help
-step
-exit

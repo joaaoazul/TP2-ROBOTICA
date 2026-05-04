@@ -19,8 +19,22 @@ public class InputReader {
 
     //readProject é o único público porque vai ser chamado de fora
     public Project projectsEngine(){
-        //FALTA FAZER ESTE
-        return null;
+        
+        int[] dimensions = dimensionsEngine();
+        if (dimensions == null) {
+            System.exit(0);
+        }
+      
+      int width = dimensions[0];
+      int height = dimensions[1];
+
+      entityEngine(width, height);
+
+         if (robots.isEmpty() || objects.isEmpty()) {
+        System.exit(0);
+    }
+    return new Project(width, height, obstacles, robots, objects);
+
     }
 
     private int[] dimensionsEngine(){
@@ -31,7 +45,7 @@ public class InputReader {
             System.out.println("Invalid dimensions format.");
             return null;
         }
-        
+
         //tenta converter para inteiro e verifica dimensões, se não der, manda erro
         try{
             int width = Integer.parseInt(input[0]);
@@ -184,3 +198,6 @@ public class InputReader {
 //No readDimensions quando as dimensões são inválidas (min ou max) imprimes o erro e fazes return null — mas o programa deve terminar ou continuar a pedir input?
 //Olhando para a tabela, parece que imprime o erro e termina — o Mooshak não mostra mais output depois do erro.
 //Isso significa que quando readProject recebe null do readDimensions deve terminar o programa com System.exit(0).
+
+//aiai o copypaste !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//foi só no todo ahahaha

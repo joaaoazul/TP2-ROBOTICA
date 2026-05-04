@@ -139,20 +139,80 @@ public class Robot extends Entity {
         }
     }
 
-    private void endPath(){
+    private void endPath(Project project){
         switch (this.phase) {
-            case :
-                
+            case GOING_TO_OBJECT:
+                grabObject(project);
                 break;
+            
+            case GOING_TO_DESTINATION:
+                dropObject(project);
+                break;
+
+            case GOING_TO_CHARGING_STATION:
+                this.state = RobotState.CHARGING;
+                this.phase = RobotPhase.NONE;
+                break;
+
             default:
-                throw new AssertionError();
+                break;
         }
     }
     
+    private void grabObject(Project project){
+        this.caughtObject = new InitObject(this.getPosition().getX(), this.getPosition().getY(), this.currentTask.getObjectId() );// 
+        this.phase = RobotPhase.GOING_TO_DESTINATION;
+        this.currentPath = CalculatePath.searchPath(project.getInitGrid(), this.getPosition(), this.currentTask.getEnd(), this.currentTask.getObjectId()); //do sitio atual para o destino
+        this.currentPathIndex = 1; //como o indice atual é 0 vamos começar no indice 1
+
+    }
+
+    private void dropObject(Project project){
+        this.caughtObject = null;
+        this.currentTask.setStatus(TaskStatus.COMPLETED);
+        this.currentTask = null;
+        this.state = RobotState.IDLE;
+        this.phase = RobotPhase.NONE;
+        
+        tryPickUpTask(project); //na mesma iteração o robo tem que ver se há mais tarefas
+    }
+
+    public void tryPickupTask(Project project){ // ter em atenção para fazer a classe TASK
+        boolean gotTask = false;
+
+        List<Task> tasks = project.getTasks();
+
+        for(int i= 0; i < tasks.size(); i++ ){
+            Task task = tasks.get(i);
+
+            if(task.getStatus() == TaskStatus.FREE){
+                if(canCompleteTask(task, project)){
+                    this.currentTask = task;
+                    task.setStatus(TaskStatus.ASSIGNED); //marca logo a tarefa como dele
+
+                    this.state = RobotState.BUSY;
+                    this.phase = RobotPhase.GOING_TO_OBJECT;
+
+                    this.currentPath = CalculatePath.searchPath(project.getInitGrid(), this.getPosition(), task.getObjectPosition(), task.getObjectId());
+
+                    this.currentPathIndex = 1; //a posição 0 é a casa onde o robo ja ta parado
+
+                    gotTask = true;
+                    break;
+
+
+                }
+            }
+        }
+        if(gotTask == false && this.getPosition().equals(this.chargingStation.getPosition())== false){ // se nao apanhou nenhuma tarefa nem ta na estação
+            this.state = RobotState.BUSY;
+            this.phase = RobotPhase.GOING_TO_CHARGING_STATION;
+
+            this.currentPath = CalculatePath.searchPath(project.getInitGrid(), this.getPosition(), this.chargingStation.getPosition(), -1); //pede o caminho para a estação //ID -1 porque nao estamos á procura de objetos
+            this.currentPathIndex= 1;
+        }
+
+    }
     
 }
 
-// falta o pickup obj
-//         drop obj
-//         tryTask
-//         canCompleteTask

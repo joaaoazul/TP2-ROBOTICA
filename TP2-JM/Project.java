@@ -1,4 +1,5 @@
 // classe central - parte principal do sistema 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -6,8 +7,27 @@ public class Project {
     private int stepCount;
     private List<Robot> robots;
     private List<Task> tasks;
+    private InitGrid initGrid;
 
+    public Project(InitGrid initGrid, List<Robot> robots) {
+        this.stepCount = 0; //a contagem de iterações começa a 0 
+        this.initGrid = initGrid;
+        this.robots = robots;
+        this.tasks = new ArrayList<>(); //começa com a lista de tarefas vazia
+    }
 
+    public InitGrid getInitGrid() {
+        return this.initGrid;
+    }
+
+    public List<Task> getTasks() {
+        return this.tasks;
+    }
+
+    public List<Robot> getRobots() {
+        return this.robots;
+    }
+    
     public void startProject(Scanner scanner) {
         boolean active = true;
 
