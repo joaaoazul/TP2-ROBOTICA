@@ -28,20 +28,46 @@ public class Robot extends Entity {
         super(position);
         this.id = id;
         this.chargingStation = chargingStation;
+        this.charge = 100;
     }
 
 
-    public int getId() {return this.id; }
+    public int getId() {
+        return this.id; 
+    }
 
-    public double getCharge() {return this.charge;}
+    public double getCharge() {
+        return this.charge;
+    }
 
-    public RobotPhase getPhase() { return this.phase; }
+    public RobotPhase getPhase() {
+        return this.phase; 
+    }
 
-    public RobotState getState() {return this.state;}
+    public RobotState getState() {
+        return this.state;
+    }
 
-    public ChargingStation getChargingStation() {return this.chargingStation;}
+    public ChargingStation getChargingStation() {
+        return this.chargingStation;
+    }
 
-    public
+    public void state(){
+        switch (this.state) {
+            case IDLE:
+
+                break;
+            case BUSY:
+
+                break;
+            case CHARGING:
+                
+                break;
+            default:
+                throw new AssertionError();
+        }
+    }
+    
 }
 
 //ficam a faltar os getters e setters
