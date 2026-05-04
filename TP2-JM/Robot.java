@@ -123,7 +123,7 @@ public class Robot extends Entity {
     }
 
     private void movePath(){
-        if (currentPathIndex = currentPath.size() || currentPath == null){ //resolver erro de formato!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        if (currentPathIndex == currentPath.size() || currentPath == null){ 
             return;
         }
         this.charge = this.charge - 0.5;

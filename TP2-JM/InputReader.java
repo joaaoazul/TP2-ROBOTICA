@@ -31,6 +31,7 @@ public class InputReader {
             System.out.println("Invalid dimensions format.");
             return null;
         }
+        
         //tenta converter para inteiro e verifica dimensões, se não der, manda erro
         try{
             int width = Integer.parseInt(input[0]);
