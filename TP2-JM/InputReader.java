@@ -1,6 +1,6 @@
-import java.util.Scanner;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 // Valida formato das entidades e requisitos mínimos
 // Validações de coordenadas e dimensões ficam no InitGrid
 
@@ -11,7 +11,6 @@ public class InputReader {
     private List<Robot> robots = new ArrayList<>();
     private List<InitObject> objects = new ArrayList<>();
 
-    //Construtor
     public InputReader(Scanner scanner){
         this.scanner = scanner;
     }
@@ -20,7 +19,7 @@ public class InputReader {
 
     //readProject é o único público porque vai ser chamado de fora
     public Project projectsEngine(){
-        //TODO: FALTA FAZER ESTE
+        //FALTA FAZER ESTE
         return null;
     }
 
@@ -28,7 +27,7 @@ public class InputReader {
         //recebe os números em string, separa-os e guarda nesse array
         String line = scanner.nextLine();
         String[] input = line.trim().split(" ");
-        if(input.length != 2){
+        if(input.length < 2){
             System.out.println("Invalid dimensions format.");
             return null;
         }
@@ -37,11 +36,11 @@ public class InputReader {
             int width = Integer.parseInt(input[0]);
             int height = Integer.parseInt(input[1]);
 
-            if (width < 5 || height < 5) {
+            if (width <= 5 || height <= 5) {
                 System.out.println("Minimum dimensions allowed is 5 by 5.");
                 return null;
             }
-            if (width > 99 || height > 99) {
+            if (width >= 99 || height >= 99) {
                 System.out.println("Maximum dimensions allowed is 99 by 99.");
                 return null;
             }

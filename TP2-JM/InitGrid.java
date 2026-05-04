@@ -1,6 +1,9 @@
-import java.util.Scanner;
 
 // criação da grelha e instalação
+
+
+import java.util.Scanner;
+
 public class InitGrid {
     private int gridHeight = 0;
     private int gridWidth = 0;
