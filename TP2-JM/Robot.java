@@ -16,6 +16,12 @@ public class Robot extends Entity {
     private int currentPathIndex;
 
 
+    @Override
+    public String getSymbol(){
+        return "R";
+    }
+
+    
     public Robot(Position position, int id, ChargingStation chargingStation) {
         super(position);
         this.id = id;
@@ -109,7 +115,7 @@ public class Robot extends Entity {
                 break;
 
             case BUSY: // cada iteração perde 0,5% mas vai ser tirado no movePath
-                movePath();
+                movePath(project);
 
                 break;
 
@@ -124,7 +130,7 @@ public class Robot extends Entity {
         }    
     }
 
-    private void movePath(){
+    private void movePath(Project project){
         if (currentPathIndex == currentPath.size() || currentPath == null){ 
             return;
         }
@@ -135,7 +141,7 @@ public class Robot extends Entity {
         currentPathIndex++; //para olhar para a proxima posição
 
         if (currentPathIndex == currentPath.size()){ //se chegou ao fim do caminho ou apanha o objeto ou larga
-            endPath();
+            endPath(project);
         }
     }
 
@@ -174,7 +180,7 @@ public class Robot extends Entity {
         this.state = RobotState.IDLE;
         this.phase = RobotPhase.NONE;
         
-        tryPickUpTask(project); //na mesma iteração o robo tem que ver se há mais tarefas
+        tryPickupTask(project); //na mesma iteração o robo tem que ver se há mais tarefas
     }
 
     public void tryPickupTask(Project project){ // ter em atenção para fazer a classe TASK

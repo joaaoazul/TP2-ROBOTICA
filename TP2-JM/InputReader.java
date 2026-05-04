@@ -17,8 +17,9 @@ public class InputReader {
 
     //métodos principais da classe
 
-    //readProject é o único público porque vai ser chamado de fora
+    // é o único público porque vai ser chamado de fora
     public Project projectsEngine(){
+
         
         int[] dimensions = dimensionsEngine();
         if (dimensions == null) {
@@ -27,13 +28,28 @@ public class InputReader {
       
       int width = dimensions[0];
       int height = dimensions[1];
+      
+        InitGrid initGrid = new InitGrid(width, height);
 
       entityEngine(width, height);
 
          if (robots.isEmpty() || objects.isEmpty()) {
         System.exit(0);
     }
-    return new Project(width, height, obstacles, robots, objects);
+
+        for (Obstacle o : obstacles) {
+    initGrid.setGridEntity(o.getPosition().getX(), o.getPosition().getY(), "##");
+}
+
+for (Robot r : robots) {
+    initGrid.setGridEntity(r.getPosition().getX(), r.getPosition().getY(), "R" + r.getId());
+    initGrid.setGridEntity(r.getChargingStation().getPosition().getX(), r.getChargingStation().getPosition().getY(), "S" + r.getId());
+}
+for (InitObject obj : objects) {
+    initGrid.setGridEntity(obj.getPosition().getX(), obj.getPosition().getY(), "O" + obj.getId());
+} 
+
+    return new Project(initGrid, robots);
 
     }
 
@@ -188,16 +204,3 @@ public class InputReader {
     }
 }
 
-
-//TODO: Dimensões — 3 7 dá erro de mínimo
-//No teu código tens:
-//javaif (width < 5 || height < 5)
-//O input 3 7 — largura é 3, menor que 5 → correto, imprime o erro.
-//
-//Mas há um problema de lógica
-//No readDimensions quando as dimensões são inválidas (min ou max) imprimes o erro e fazes return null — mas o programa deve terminar ou continuar a pedir input?
-//Olhando para a tabela, parece que imprime o erro e termina — o Mooshak não mostra mais output depois do erro.
-//Isso significa que quando readProject recebe null do readDimensions deve terminar o programa com System.exit(0).
-
-//aiai o copypaste !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//foi só no todo ahahaha

@@ -2,21 +2,14 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-
-       Scanner scanner = new Scanner(System.in);
-    
-       InputReader input = new InputReader();
-
-       Project project = input.initRead(scanner);
+        try (Scanner scanner = new Scanner(System.in)) {
+            InputReader input = new InputReader(scanner);
+            
+            Project project = input.projectsEngine();
         
-       if (project != null) {
-        project.startProject(scanner);
-       }
-
-       scanner.close();
-
-
-        
+            if (project != null) {
+                project.startProject(scanner);
+            }
+        }
     }
-
 }
