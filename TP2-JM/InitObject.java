@@ -1,5 +1,9 @@
 
-//representar objetos trasportaveis 
+//representar objetos trasportaveis
+
+/**
+ * Representa um objeto transportável presente na instalação robótica.
+ */
 
 public class InitObject extends Entity {
 

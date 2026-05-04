@@ -37,16 +37,16 @@ public class InputReader {
         System.exit(0);
     }
 
-        for (Obstacle o : obstacles) {
-    initGrid.setGridEntity(o.getPosition().getX(), o.getPosition().getY(), "##");
+        for (int i = 0; i < obstacles.size(); i++) {
+    initGrid.setGridEntity(obstacles.get(i).getPosition().getX(), obstacles.get(i).getPosition().getY(), "##");
 }
 
-for (Robot r : robots) {
-    initGrid.setGridEntity(r.getPosition().getX(), r.getPosition().getY(), "R" + r.getId());
-    initGrid.setGridEntity(r.getChargingStation().getPosition().getX(), r.getChargingStation().getPosition().getY(), "S" + r.getId());
+for (int i = 0; i < robots.size(); i++) {
+    initGrid.setGridEntity(robots.get(i).getPosition().getX(), robots.get(i).getPosition().getY(), "R" + robots.get(i).getId());
+    initGrid.setGridEntity(robots.get(i).getChargingStation().getPosition().getX(), robots.get(i).getChargingStation().getPosition().getY(), "S" + robots.get(i).getId());
 }
-for (InitObject obj : objects) {
-    initGrid.setGridEntity(obj.getPosition().getX(), obj.getPosition().getY(), "O" + obj.getId());
+for (int i = 0; i < objects.size(); i++) {
+    initGrid.setGridEntity(objects.get(i).getPosition().getX(), objects.get(i).getPosition().getY(), "O" + objects.get(i).getId());
 } 
 
     return new Project(initGrid, robots);
