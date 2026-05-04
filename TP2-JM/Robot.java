@@ -33,7 +33,7 @@ public class Robot extends Entity {
         return this.charge;
     }
     public void setCharge(double charge) {
-        if (charge < 100.0 && charge > 0.0 ){
+        if (charge <= 100.0 && charge >= 0.0 ){
             this.charge = charge;
         }
         
@@ -101,7 +101,9 @@ public class Robot extends Entity {
         switch (this.state) {
 
             case IDLE: //esta parado fora da estacao so perde 0,2%
-                if (this.getPosition() != this.chargingStation.getPosition()) {
+                if (this.getPosition().equals(this.chargingStation.getPosition()) ) {
+                    
+                }else {
                     this.charge -= 0.2;
                 }
                 break;

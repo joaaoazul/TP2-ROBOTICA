@@ -97,7 +97,7 @@ public class InitGrid {
     public int getWidth(){
         return this.gridWidth;
     }
-    public int getHeight(int gridHeight){
+    public int getHeight(){
         return this.gridHeight;
     }
 }
