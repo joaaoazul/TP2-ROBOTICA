@@ -94,4 +94,10 @@ public class InitGrid {
             System.out.println("Invalid dimensions format.");
         }
     }
+    public int getWidth(){
+        return this.gridWidth;
+    }
+    public int getHeight(int gridHeight){
+        return this.gridHeight;
+    }
 }

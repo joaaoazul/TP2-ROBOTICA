@@ -12,7 +12,7 @@ public class Project {
         boolean active = true;
 
         while (active == true){
-            System.out.println("Enter Command: ");
+            System.out.print("Enter Command: ");
             String option = scanner.nextLine().trim();
 
             if (option.isEmpty()){ //se der so enter é so voltar ao inicio
@@ -55,12 +55,12 @@ public class Project {
     
 
     private void printHelp(){
-        System.out.println("               [Help – List of commands]");
-        System.out.println("help                                - Show list of commands");
-        System.out.println("step                                – Run next simulation step");
+        System.out.println("[Help – List of commands]");
+        System.out.println("help - Show list of commands");
+        System.out.println("step – Run next simulation step");
         System.out.println("add-task <obj-id> <dest-x> <dest-y> – Add new task");
-        System.out.println("get-robot <id>                      - Get robot information");
-        System.out.println("exit                                – Exit the simulation");
+        System.out.println("get-robot <id> - Get robot information");
+        System.out.println("exit – Exit the simulation");
 
     }
 }

@@ -1,5 +1,5 @@
 public enum TaskStatus {
-    FREE,
+        FREE,
         ASSIGNED,
         COMPLETED
     }
