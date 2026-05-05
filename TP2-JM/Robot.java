@@ -245,6 +245,42 @@ public class Robot extends Entity {
         }
 
     }
+
+    @Override
+    public String toString() {
+        String taskStr = "NONE";
+        if (this.currentTask != null) {
+            taskStr = "(O" + this.currentTask.getObjectId() + " --> " + this.currentTask.getEnd().getX() + ";" + this.currentTask.getEnd().getY() + ")";
+        }
+
+        String stateStr = this.state.toString();
+        if (this.state == RobotState.BUSY && this.phase != RobotPhase.NONE) {
+            stateStr = stateStr + " " + formatPhase(this.phase) + formatPathProgress();
+        }
+
+        return "[R" + this.id + "] pos=" + this.getPosition().getX() + ";" + this.getPosition().getY()
+                + " charge=" + String.format("%.2f", this.charge) + "% state=" + stateStr + " task=" + taskStr;
+    }
+
+    private String formatPhase(RobotPhase phase) {
+        switch (phase) {
+            case GOING_TO_OBJECT:
+                return "GOING TO OBJECT";
+            case GOING_TO_DESTINATION:
+                return "GOING TO DESTINATION";
+            case GOING_TO_CHARGING_STATION:
+                return "GOING TO CHARGING STATION";
+            default:
+                return "";
+        }
+    }
+
+    private String formatPathProgress() {
+        if (this.currentPath == null || this.currentPath.isEmpty()) {
+            return "";
+        }
+        return " (" + this.currentPathIndex + "/" + this.currentPath.size() + ")";
+    }
 }
     
 

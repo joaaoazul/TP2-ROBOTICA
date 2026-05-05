@@ -1,4 +1,6 @@
 // classe central - parte principal do sistema 
+//TODO: FALTA SÓ JAVADOCS
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -35,7 +37,7 @@ public class Project {
         printInterface();
 
         while (active == true){
-            System.out.print("Enter Command: ");
+            System.out.print("Enter command: ");
             String option = scanner.nextLine().trim();
 
             if (option.isEmpty()){ //se der so enter é so voltar ao inicio
@@ -48,7 +50,11 @@ public class Project {
 
             switch (command) {
                 case "help":
-                    printHelp();
+                    if (parts.length != 1) {
+                        System.out.println("Unknown utility: " + parts[1] + ".");
+                    } else {
+                        printHelp();
+                    }
                     break;
 
                 case "step":
@@ -58,8 +64,8 @@ public class Project {
                     break;
 
                 case "add-task":
-                    if (parts.length !=4){
-                        System.out.println("ERROR! you can consult the help command");
+                    if (parts.length != 4){
+                        System.out.println("Invalid number of arguments.");
                         break;
                     }
                     try { // atribuimos valores a 3 variaveis tirado do comando previamente dividido em partes sabendo que a parte 0 vai ser o comando add-task
@@ -68,20 +74,20 @@ public class Project {
                         int endY = Integer.parseInt(parts[3]);
                         newTask(objId, endX, endY);
                     } catch (NumberFormatException e) {
-                        System.out.println("Put correct format");
+                        System.out.println("Invalid number of arguments.");
                     }
                     break;
 
                 case "get-robot":
                     if (parts.length != 2){
-                        System.out.println("ERROR!  you can consult the help command");
+                        System.out.println("Invalid number of arguments.");
                         break;
                     }
                     try {
                         int robotId = Integer.parseInt(parts[1]);
                         showRobot(robotId);
                     } catch (NumberFormatException e) {
-                        System.out.println("Invalid ID");
+                        System.out.println("Invalid number of arguments.");
                     }
                     break;
 
@@ -90,7 +96,7 @@ public class Project {
                     break;
 
                 default:
-                    System.out.println("Unknown type");
+                    System.out.println("Unknown utility: " + command + ".");
                     break;
 
             }
@@ -106,7 +112,12 @@ public class Project {
     private void newTask(int objId, int endX, int endY) {
         Position objectPosition = findObjectPosition(objId);
         if (objectPosition == null) {
-            System.out.println("Object not found");
+            System.out.println("Object with ID " + objId + " not found.");
+            return;
+        }
+
+        if (!isValidDestination(endX, endY)) {
+            System.out.println("Invalid destination.");
             return;
         }
 
@@ -121,8 +132,8 @@ public class Project {
 
         for (int y = 0; y < initGrid.getHeight(); y++) {
             for (int x = 0; x < initGrid.getWidth(); x++) {
-                if (target.equals(initGrid.getGridEntity(x, y))) {
-                    return new Position(x, y);
+                if (target.equals(initGrid.getGridEntity(y, x))) {
+                    return new Position(x + 1, y + 1);
                 }
             }
         }
@@ -137,16 +148,16 @@ public class Project {
                 return;
             }
         }
-        System.out.println("Robot not found");
+        System.out.println("Robot with ID " + robotId + " not found.");
     }
 
     private void printHelp(){
-        System.out.println("[Help – List of commands]");
+        System.out.println("[Help - List of commands]");
         System.out.println("help - Show list of commands");
-        System.out.println("step – Run next simulation step");
-        System.out.println("add-task <obj-id> <dest-x> <dest-y> – Add new task");
+        System.out.println("step - Run next simulation step");
+        System.out.println("add-task <obj-id> <dest-x> <dest-y> - Add new task");
         System.out.println("get-robot <id> - Get robot information");
-        System.out.println("exit – Exit the simulation");
+        System.out.println("exit - Exit the simulation");
 
     }
 
@@ -158,33 +169,28 @@ public class Project {
         int width = initGrid.getWidth();
         int height = initGrid.getHeight();
 
-        System.out.print(" ");
+        System.out.print("  ");
         for (int x = 1; x <= width; x++) {
             System.out.printf(" %02d", x);
         }
         System.out.println();
 
         for (int y = 1; y <= height; y++) {
-            System.out.print(String.format("%02d ", y));
+            System.out.printf("%02d", y);
             for (int x = 1; x <= width; x++) {
-                System.out.print(" " + cellAt(x, y));
+                String cell = cellAt(x, y);
+                System.out.print(" " + cell);
             }
             System.out.println();
         }
-
+        System.out.println("");
         System.out.println("ROBOTS");
         for (int i = 0; i < robots.size(); i++) {
-            Robot r = robots.get(i);
-            String taskStr = "NONE";
-            if (r.getCurrentTask() != null) {
-                Task tt = r.getCurrentTask();
-                taskStr = "(O" + tt.getObjectId() + " --> " + tt.getEnd().getX() + ";" + tt.getEnd().getY() + ")";
-            }
-            System.out.println("[R" + r.getId() + "] pos=" + r.getPosition().getX() + ";" + r.getPosition().getY()
-                    + " charge=" + String.format("%.2f", r.getCharge()) + "% state=" + r.getState() + " task=" + taskStr);
+            System.out.println(robots.get(i));
         }
-
+        System.out.println("");
         System.out.println("TASKS");
+        System.out.println("");
         for (int ti = 0; ti < tasks.size(); ti++) {
             Task t = tasks.get(ti);
             String owner = "";
@@ -207,8 +213,16 @@ public class Project {
                 return "R" + r.getId();
             }
         }
-        String cell = initGrid.getGridEntity(x - 1, y - 1);
+        String cell = initGrid.getGridEntity(y - 1, x - 1);
         return cell;
+    }
+
+    private boolean isValidDestination(int x, int y) {
+        if (x < 1 || y < 1 || x > initGrid.getWidth() || y > initGrid.getHeight()) {
+            return false;
+        }
+
+        return "..".equals(initGrid.getGridEntity(y - 1, x - 1));
     }
     
 }

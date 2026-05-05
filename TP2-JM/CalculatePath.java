@@ -4,7 +4,38 @@
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe Helper/Utilitária que implementa o mecanismo de busca em profundidade (DFS - Depth-First Search)
+ * para calcular rotas numa grelha de simulação.
+ * <p>
+ * A navegação analisa obstáculos, estações de carregamento e objetos presentes
+ * na grelha, permitindo ao robot alcançar um destino ou recolher um objeto.
+ * </p>
+ */
+
 public class CalculatePath {
+
+      /**
+       * Vai calcular e verificar se o robot pode mover-se para a célula nas coordenadas específicadas.
+     * <p>
+     * Uma célula é considerada válida e aberta se:
+     * <ul>
+     *   <li>Estiver dentro dos limites da grelha;</li>
+     *   <li>Não for um obstáculo ({@code ##});</li>
+     *   <li>Não for uma estação de carregamento ({@code S} ou {@code C});</li>
+     *   <li>Não tiver sido visitada anteriormente;</li>
+     *   <li>Caso contenha um objeto ({@code O}), o seu Id corresponder ao {@code targetObjectId}.</li>
+     * </ul>
+     * </p>
+     *
+     * @param grid           grelha de simualção do robot
+     * @param x              coordenada X da célula destino (base 1)
+     * @param y              coordenada Y da célula destino (base 1)
+     * @param visited        posições já visitadas durante a busca, para evitar recursões infinitas
+     * @param targetObjectId Id do objeto que o robô pretende recolher;
+     *                       usado para permitir passagem por células com esse objeto, devolve
+     * @return {@code true} se o movimento for válido; {@code false} caso não seja.
+     */
 
     public static boolean canStep(InitGrid grid, int x, int y, List<Position> visited, int targetObjectId ){ //validações todas para ver se pode fazer o passo
         int width = grid.getWidth();
@@ -31,6 +62,23 @@ public class CalculatePath {
         return true;
 
     }
+
+     /**
+    * Calcula um caminho/rota possível desde o ponto de partida até ao destino usando o mecanismo DFS (Depth-First Search) busca em profundidade.
+     * <p>
+     * A busca segue uma ordem definida de: esquerda → cima → direita → baixo.
+     * Caso nenhuma diração seja viável a partir da posição corrente, o mecanismo retrocede removendo a última posição do caminho.
+     * O robot pode atravessar células de objetos com Id como {@code targetObjectId},
+     * mas não pode atravessar obstáculos nem estações de carregamento.
+     * </p>
+     *
+     * @param grid           inicia a grelha da simualação
+     * @param start          será a posição inicial do robot
+     * @param end            destino do robot
+     * @param targetObjectId Id do objeto alvo, as células desse objeto são dadas como transitáveis
+     * @return uma {@link List} de {@link Position} representra o caminho do início ao fim
+     *         (inclusivo de início e fim), ou {@code null} se não houver uma rota possivel/válida
+     */
     
     public static List<Position> searchPath(InitGrid grid, Position start, Position end, int targetObjectId){
         List<Position> path = new ArrayList<>();

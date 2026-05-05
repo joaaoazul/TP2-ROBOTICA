@@ -38,15 +38,15 @@ public class InputReader {
     }
 
         for (int i = 0; i < obstacles.size(); i++) {
-    initGrid.setGridEntity(obstacles.get(i).getPosition().getX(), obstacles.get(i).getPosition().getY(), "##");
+    initGrid.setGridEntity(obstacles.get(i).getPosition().getY() - 1, obstacles.get(i).getPosition().getX() - 1, "##");
 }
 
 for (int i = 0; i < robots.size(); i++) {
-    initGrid.setGridEntity(robots.get(i).getPosition().getX(), robots.get(i).getPosition().getY(), "R" + robots.get(i).getId());
-    initGrid.setGridEntity(robots.get(i).getChargingStation().getPosition().getX(), robots.get(i).getChargingStation().getPosition().getY(), "S" + robots.get(i).getId());
+    initGrid.setGridEntity(robots.get(i).getPosition().getY() - 1, robots.get(i).getPosition().getX() - 1, "R" + robots.get(i).getId());
+    initGrid.setGridEntity(robots.get(i).getChargingStation().getPosition().getY() - 1, robots.get(i).getChargingStation().getPosition().getX() - 1, "S" + robots.get(i).getId());
 }
 for (int i = 0; i < objects.size(); i++) {
-    initGrid.setGridEntity(objects.get(i).getPosition().getX(), objects.get(i).getPosition().getY(), "O" + objects.get(i).getId());
+    initGrid.setGridEntity(objects.get(i).getPosition().getY() - 1, objects.get(i).getPosition().getX() - 1, "O" + objects.get(i).getId());
 } 
 
     return new Project(initGrid, robots);
@@ -67,11 +67,11 @@ for (int i = 0; i < objects.size(); i++) {
             int width = Integer.parseInt(input[0]);
             int height = Integer.parseInt(input[1]);
 
-            if (width <= 5 || height <= 5) {
+            if (width <= 4 || height <= 4) {
                 System.out.println("Minimum dimensions allowed is 5 by 5.");
                 return null;
             }
-            if (width >= 99 || height >= 99) {
+            if (width >= 100 || height >= 100) {
                 System.out.println("Maximum dimensions allowed is 99 by 99.");
                 return null;
             }
@@ -92,6 +92,7 @@ for (int i = 0; i < objects.size(); i++) {
             if(inputReader.equals("start")) {
                 if (entityCounter == 0) {
                     System.out.println("Expected entity name.");
+                    System.exit(0);
                 }
                 break;
             }
@@ -102,31 +103,36 @@ for (int i = 0; i < objects.size(); i++) {
             if (inputList[0].equals("OBS")) {
                 Obstacle o = obstacleEngine(inputList, entityCounter, width, height);
                 if (o != null) obstacles.add(o);
+                else System.exit(0);
 
             } else if (inputList[0].equals("ROB")) {
                 robotCounter += 1;
                 Robot r = roboEngine(inputList, entityCounter, width, height, robotCounter);
                 if (r != null) robots.add(r);
+                else System.exit(0);
 
             } else if (inputList[0].equals("OBJ")) {
                 objectCounter += 1;
                 InitObject obj = objectEngine(inputList, entityCounter, width, height, objectCounter);
                 if (obj != null) objects.add(obj);
+                else System.exit(0);
 
             } else {
-                System.out.println("Unknown entity type \"" + inputList[0] + "\" at entity " + entityCounter);
+                System.out.println("Unknown entity type \"" + inputList[0] + "\" at entity " + entityCounter + ".");
+                System.exit(0);
             }
         }
 
         //verifica se tem pelo menos 1 robô e 1 objeto
         if (robots.isEmpty() || objects.isEmpty()) {
             System.out.println("At least 1 robot and 1 object are required.");
+            System.exit(0);
         }
     }
 
     private Obstacle obstacleEngine(String[] parts, int entityCounter, int width, int height){
         if(parts.length != 3) {
-            System.out.println("Invalid entity format at entity " + entityCounter);
+            System.out.println("Invalid entity format at entity " + entityCounter + ".");
             return null;
         }
         try{
@@ -134,19 +140,19 @@ for (int i = 0; i < objects.size(); i++) {
             int y = Integer.parseInt(parts[2]);
 
             if (!validationHelper(x, y, width, height)) {
-                System.out.println("Invalid entity coordinates at entity " + entityCounter);
+                System.out.println("Invalid entity coordinates at entity " + entityCounter + ".");
                 return null;
             }
             return new Obstacle(new Position(x, y));
         } catch (NumberFormatException e) {
-            System.out.println("Invalid entity coordinates at entity " + entityCounter);
+            System.out.println("Invalid entity coordinates at entity " + entityCounter + ".");
             return null;
         }
     }
 
     private InitObject objectEngine(String[] parts, int entityCounter, int width, int height, int objectId) {
         if(parts.length != 3) {
-            System.out.println("Invalid entity format at entity " + entityCounter);
+            System.out.println("Invalid entity format at entity " + entityCounter + ".");
             return null;
         }
         try{
@@ -154,19 +160,19 @@ for (int i = 0; i < objects.size(); i++) {
             int y = Integer.parseInt(parts[2]);
 
             if (!validationHelper(x, y, width, height)) {
-                System.out.println("Invalid entity coordinates at entity " + entityCounter);
+                System.out.println("Invalid entity coordinates at entity " + entityCounter + ".");
                 return null;
             }
             return new InitObject(new Position(x, y), objectId);
         } catch (NumberFormatException e) {
-            System.out.println("Invalid entity coordinates at entity " + entityCounter);
+            System.out.println("Invalid entity coordinates at entity " + entityCounter + ".");
             return null;
         }
     }
 
     private Robot roboEngine(String[] parts, int entityCounter, int width, int height, int robotId) {
         if(parts.length != 5) {
-            System.out.println("Invalid entity format at entity " + entityCounter);
+            System.out.println("Invalid entity format at entity " + entityCounter + ".");
             return null;
         }
         try {
@@ -176,7 +182,7 @@ for (int i = 0; i < objects.size(); i++) {
             int csy = Integer.parseInt(parts[4]);
 
             if(!validationHelper(x, y, width, height) || !validationHelper(csx, csy, width, height)){
-                System.out.println("Invalid entity coordinates at entity " + entityCounter);
+                System.out.println("Invalid entity coordinates at entity " + entityCounter + ".");
                 return null;
             }
 
@@ -184,7 +190,7 @@ for (int i = 0; i < objects.size(); i++) {
             return new Robot(new Position(x, y), robotId, cs);
 
         } catch(NumberFormatException e){
-            System.out.println("Invalid entity coordinates at entity " + entityCounter);
+            System.out.println("Invalid entity coordinates at entity " + entityCounter + ".");
             return null;
         }
     }

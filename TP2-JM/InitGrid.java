@@ -4,10 +4,27 @@
 
 import java.util.Scanner;
 
+/**
+ * Classe responsável por criar a Grid e imprimir no terminal a grelha inicial, bem como validar as posições e permitir a colocação de entidades na grelha.
+ */
+
 public class InitGrid {
+
+    /**
+     * Atributos da classe:
+     * @param gridHeight - altura da grelha
+     * @param gridWidth - largura da grelha
+     * @param grid - matriz da grelha, onde cada posição pode alojar uma entidade, ou um espaço vazio representado por ".."
+     */
     private int gridHeight = 0;
     private int gridWidth = 0;
     private String[][] grid;
+
+    /**
+     * Método construtor da classe, recebe a largura e altura da grelha, inicia a grelha e introduz espaços vazios em todas as suas posições.
+     * @param width - largura da grelha
+     * @param height - altura da grelha
+     */
 
     public InitGrid(int width, int height) {
         this.gridWidth = width;
@@ -21,6 +38,10 @@ public class InitGrid {
             }
         }
     }
+
+    /**
+     * Método @param printGrid responsável por imprimir a grelha no terminal, com a númeração e formatação das linhas, colunas e espaços vazios.
+     */
 
     public void printGrid() {
         int y = 0;
@@ -54,10 +75,17 @@ public class InitGrid {
         }
     }
 
+    /**
+     * Método @param isAvaliable responsável por validar se a posição dada é válida, ou seja, se está dentro dos limites da grelha.
+     */
     //validaçao da posição
     private boolean isAvaliable(int l, int c) {
         return l >= 0 && l < gridHeight && c >= 0 && c < gridWidth;
     }
+
+    /**
+     * Método @param setGridEntity responsável por colocar uma entidade na grelha, caso a posição seja válida e esteja disponível (ou seja, não tenha outra entidade).
+     */
 
     public void setGridEntity(int l, int c, String entity) {
         if (isAvaliable(l, c) == true) { 
@@ -65,9 +93,17 @@ public class InitGrid {
         }
     }
 
+    /**
+     * Método @param getGridEntity responsável por @return a entidade atual na posição dada da grelha, ou um espaço vazio caso não haja nenhuma entidade.
+     */
+
     public String getGridEntity(int l, int c) {
         return grid[l][c];
     }
+
+    /**
+     * Método @param main responsável por ler as dimensões da grelha a partir do terminal, validar as dimensões e criar a grelha inicial, imprimindo-a no terminal.
+     */
 
     public static void main(String[] args) {
 
@@ -93,6 +129,10 @@ public class InitGrid {
             System.out.println("Invalid dimensions format.");
         }
     }
+
+    /**
+     * Métodos @param getWidth e @param getHeight getters responsáveis por devolver a largura e altura da grelha, respetivamente.
+     */
     public int getWidth(){
         return this.gridWidth;
     }
