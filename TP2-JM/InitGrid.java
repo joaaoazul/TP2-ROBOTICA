@@ -20,11 +20,9 @@ public class InitGrid {
                 grid[l][c] = "..";
             }
         }
-        
-        startGrid();
     }
 
-    private void startGrid() {
+    public void printGrid() {
         int y = 0;
         int o = 0;
 
@@ -88,6 +86,7 @@ public class InitGrid {
                 System.out.println("Maximum dimensions allowed is 99 by 99.");
             } else {
                 InitGrid myGrid = new InitGrid(w, h);
+                myGrid.printGrid();
             }
             
         } else {

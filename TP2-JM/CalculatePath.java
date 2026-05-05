@@ -7,11 +7,14 @@ import java.util.List;
 public class CalculatePath {
 
     public static boolean canStep(InitGrid grid, int x, int y, List<Position> visited, int targetObjectId ){ //validações todas para ver se pode fazer o passo
-        if (x < 1 || x > grid.getWidth() || y < 1 || y > grid.getHeight() ){
+        int width = grid.getWidth();
+        int height = grid.getHeight();
+
+        if (x < 1 || x > width || y < 1 || y > height ){
             return false;
         }
 
-        String cellContent = grid.getGridEntity(x, y);
+        String cellContent = grid.getGridEntity(x - 1, y - 1);
 
         if (cellContent.equals("##")){ //se for obstaculo
             return false;
@@ -20,12 +23,8 @@ public class CalculatePath {
         } else if (cellContent.startsWith("O")){
             try {
                 int objId = Integer.parseInt(cellContent.substring(1));
-                if (objId == targetObjectId){
-                    return true;
-                }else {
-                    return false;
-                }
-            } catch (Exception e) {
+                return objId == targetObjectId;
+            } catch (NumberFormatException e) {
                 return false; //se der erro a ler 
             }
         }

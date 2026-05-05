@@ -135,7 +135,7 @@ public class Robot extends Entity {
     }
 
     private void movePath(Project project) {
-        if (currentPathIndex == currentPath.size() || currentPath == null) {
+        if (currentPath == null || currentPathIndex >= currentPath.size()) {
             return;
         }
         this.charge = this.charge - 0.5;
