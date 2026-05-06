@@ -3,6 +3,26 @@
 
 import java.util.List;
 
+/**
+ * Classe que representa a entidade do Robot, extende a classe Entity para receber atributos Pai,
+ * E opera a entidade dentro dos limites da Grid com funções limitadas ao seu tipo.
+ *
+ * <p>Navega a grid como dito, e pega em objetos, entrega em certos destinos definidos pelo user. O seu comportamento é
+ * definido pelo {@link RobotState} (IDLE, BUSY, CHARGING)e o {@link RobotPhase} que orienta o estado atual da entrega de um objeto.</p>
+ *
+ * <p>O Robot em cada passo simulado consome bateria nos seguintes moldes:
+ * </p>
+ * <ul>
+ *   <li>IDLE fora da estação de carregamento: -0.2% por passo</li>
+ *   <li>BUSY (moving): -0.5% por passo</li>
+ *   <li>CHARGING: +10.0% por passo, limitado a um máximo de 100%</li>
+ *   </ul>
+ *  @see RobotState
+ *  @see RobotPhase
+ *  @see Task
+ *  @see ChargingStation
+ */
+
 public class Robot extends Entity {
 
     private int id;
@@ -15,11 +35,22 @@ public class Robot extends Entity {
     private List<Position> currentPath;
     private int currentPathIndex;
 
+    /**
+     * Método que recebe o simbolo da entidade Robot, neste caso é "R".
+     * @return
+     */
 
     @Override
     public String getSymbol() {
         return "R";
     }
+
+    /**
+     * Construtor da Classe que vai criar um novo Robot, numa nova posição.
+     * @param position      Posição inicial do Robot
+     * @param id            Id de identificação único do Robot
+     * @param chargingStation       Estação de carregamento associada a esse Robot específico, usada em caso de Idle ou Low Charge.
+     */
 
 
     public Robot(Position position, int id, ChargingStation chargingStation) {
@@ -28,6 +59,11 @@ public class Robot extends Entity {
         this.chargingStation = chargingStation;
         this.charge = 100.0;//pois os robôs começam a 100%
     }
+
+    /**
+     * Getters de Id, Charge e um Setter de Charge para valores entre 0.0 e 100.0.
+     * @return
+     */
 
     //id
     public int getId() {
@@ -45,6 +81,11 @@ public class Robot extends Entity {
         }
 
     }
+
+    /**
+     * Getters e Setters de Phase, State, Charging Station, Caught Object, Task, Current Path e Path Index, respectivamente.
+     * @return
+     */
 
     //phase
     public RobotPhase getPhase() {
@@ -106,6 +147,15 @@ public class Robot extends Entity {
 
     }
 
+    /**
+     * Método executeStop, que executa cada passo do Robot, conforme o seu atual estado.
+     * <ul>
+     *     <li>{@link RobotState#IDLE} - Se estiver fora da estação, consome 0.2% de carga</li>
+     *     <li>{@link RobotState#BUSY} -Avança um passo no atual caminho através de {@link #movePath}</li>
+     *      <li>{@link RobotState#CHARGING} - recupera 10.0% de carga e passa a IDLE quando cheia.</li>
+     *  </ul>
+     * @param project       Contexto atual do projeto, que passa pela verificação lógica de Path e Task
+     */
 
     public void executeStep(Project project) {
         switch (this.state) {
@@ -134,6 +184,14 @@ public class Robot extends Entity {
         }
     }
 
+    /**
+     * Método movePath, avança o robo uma posição no percurso já calculado.
+     * Consome 0.5% de carga por passo e, quando chega ao destino, delega em {@link #endPath}
+     * a competência de mudar de estado/phase.
+     *
+     * @param project       Contexto do projeto atual.
+     */
+
     private void movePath(Project project) {
         if (currentPath == null || currentPathIndex >= currentPath.size()) {
             return;
@@ -148,6 +206,18 @@ public class Robot extends Entity {
             endPath(project);
         }
     }
+
+    /**
+     * Método endPath, que pega na parte final do percurso do Robot e executa consoante o seu estado/phase.
+     *
+     *  <ul>
+     *     <li>{@link RobotPhase#GOING_TO_OBJECT} - Pega no objeto</li>
+     *     <li>{@link RobotPhase#GOING_TO_DESTINATION} - Larga e deixa o objeto</li>
+     *     <li>{@link RobotPhase#GOING_TO_CHARGING_STATION} - Faz a transição para o estado de carregamento</li>
+     *  </ul>
+     *
+     * @param project       Contexto do projeto atual.
+     */
 
     private void endPath(Project project) {
         switch (this.phase) {
@@ -169,6 +239,12 @@ public class Robot extends Entity {
         }
     }
 
+    /**
+     * Método grabObject, que pega no objeto alvo na posição atual, e calcula o percurso até ao destino final.
+     * Seguidamente, faz a transição para {@link RobotPhase#GOING_TO_DESTINATION}.
+     * @param project       Contexto do projeto atual, usado para calcular o percurso.
+     */
+
     private void grabObject(Project project) {
         this.caughtObject = new InitObject(this.getPosition(), this.currentTask.getObjectId());
         this.phase = RobotPhase.GOING_TO_DESTINATION;
@@ -176,6 +252,12 @@ public class Robot extends Entity {
         this.currentPathIndex = 1; //como o indice atual é 0 vamos começar no indice 1
 
     }
+
+    /**
+     * Método dropObject, que larga o objeto no destino, marca a Task como {@link TaskStatus#COMPLETED},
+     * e logo a seguir tenta pegar noutra tarefa através de {@link #tryPickupTask}.
+     * @param project       Contexto do projeto atual.
+     */
 
     private void dropObject(Project project) {
         this.caughtObject = null;
@@ -186,6 +268,24 @@ public class Robot extends Entity {
 
         tryPickupTask(project); //na mesma iteração o robo tem que ver se há mais tarefas
     }
+
+    /**
+     * Método boolean canCompleteTask, que verifica que o Robot tem carga suficiente para fazera Task e,
+     * voltar à Charging Station logo a seguir.
+     *
+     * <p>Calcula três segmentos para o percurso:</p>
+     *      <ol>
+     *          <li>Atual position → object position</li>
+     *          <li>Object position → Task destino</li>
+     *          <li>Task destino → charging station</li>
+     *          </ol>
+     *          <p>O custo total é mostrado por {@code (totalSteps) * 0.5}. Retorna {@code false}
+     *          se nenhum segmento tiver um percurso válido.</p>
+     *
+     * @param task      Tarefa a avaliar
+     * @param project   Contexto do atual projeto.
+     * @return {@code true} se o Robot conseguir cumprir a tarefa e voltar à Charging Station.
+     */
 
     //TODO: Método feito que estava em falta
         private boolean canCompleteTask(Task task, Project project) {
@@ -208,6 +308,16 @@ public class Robot extends Entity {
             return this.charge > tripCost;
         }
 
+    /**
+     * Método tryPickupTask, vai verificar a lista de Tasks livres que o nosso Robot possa completar e atribui-lhe uma.
+     *Se nenhuma Task estiver disponível e o Robot ainda não estiver na sua Charging Station,
+     * fá-lo voltar para que se possa carregar.
+     *
+     * <p>Distribuidor de Tasks mete o estado do Robot {@link RobotState#BUSY} e a sua Phase
+     *  em {@link RobotPhase#GOING_TO_OBJECT}, calculando de seguida o Path.</p>
+     *
+     * @param project       Contexto do atual projeto, contendo a lista de Tasks e a Grid.
+     */
 
     public void tryPickupTask(Project project) { // ter em atenção para fazer a classe TASK
         boolean gotTask = false;
@@ -245,6 +355,7 @@ public class Robot extends Entity {
         }
 
     }
+
 
     @Override
     public String toString() {
