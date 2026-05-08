@@ -1,21 +1,52 @@
-// classe central - parte principal do sistema 
+// classe central - parte principal do sistema
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Classe central do sistema de simulação, responsável por gerir o estado global do projeto.
+ *
+ * <p>Agrega a grelha de simulação ({@link InitGrid}), a lista de robots ({@link Robot})
+ * e a lista de tarefas ({@link Task}), coordenando a interação entre todos através
+ * de um loop de comandos interativo.</p>
+ *
+ * <p>Comandos disponíveis:</p>
+ * <ul>
+ *   <li>{@code step} - avança um passo da simulação</li>
+ *   <li>{@code add-task} - cria uma nova tarefa</li>
+ *   <li>{@code get-robot} - mostra o estado de um robot</li>
+ *   <li>{@code help} - lista os comandos disponíveis</li>
+ *   <li>{@code exit} - termina a simulação</li>
+ * </ul>
+ *
+ * @see Robot
+ * @see Task
+ * @see InitGrid
+ */
 public class Project {
     private int stepCount;
     private List<Robot> robots;
     private List<Task> tasks;
     private InitGrid initGrid;
 
+    /**
+     * Construtor da Classe que inicializa o projeto com a grelha e os robots fornecidos.
+     *
+     * @param initGrid  grelha inicial da simulação
+     * @param robots    lista de robots que vão operar na grelha
+     */
     public Project(InitGrid initGrid, List<Robot> robots) {
-        this.stepCount = 0; //a contagem de iterações começa a 0 
+        this.stepCount = 0;
         this.initGrid = initGrid;
         this.robots = robots;
-        this.tasks = new ArrayList<>(); //começa com a lista de tarefas vazia
+        this.tasks = new ArrayList<>();
     }
+
+    /**
+     * Getters de InitGrid, Tasks e Robots, respetivamente.
+     * @return
+     */
 
     public InitGrid getInitGrid() {
         return this.initGrid;
@@ -28,22 +59,34 @@ public class Project {
     public List<Robot> getRobots() {
         return this.robots;
     }
-    
+
+    /**
+     * Método startProject, que inicia o loop interativo da simulação, lendo e processando comandos do utilizador.
+     *
+     * <p>Comandos suportados:</p>
+     * <ul>
+     *   <li>{@code help} - mostra a lista de comandos</li>
+     *   <li>{@code step} - executa um passo e atualiza a interface</li>
+     *   <li>{@code add-task <objId> <destX> <destY>} - cria uma nova tarefa</li>
+     *   <li>{@code get-robot <id>} - mostra o estado do robot com o id indicado</li>
+     *   <li>{@code exit} - termina o loop e encerra a simulação</li>
+     * </ul>
+     *
+     * @param scanner   Scanner para leitura dos comandos do utilizador
+     */
     public void startProject(Scanner scanner) {
         boolean active = true;
 
-        // mostra a interface
         printInterface();
 
-        while (active == true){
+        while (active == true) {
             System.out.print("Enter command: ");
             String option = scanner.nextLine().trim();
 
-            if (option.isEmpty()){ //se der so enter é so voltar ao inicio
+            if (option.isEmpty()) {
                 continue;
             }
 
-            //tratamento de dados da opção escolhida
             String[] parts = option.split(" ");
             String command = parts[0].toLowerCase();
 
@@ -57,21 +100,17 @@ public class Project {
                     break;
 
                 case "step":
-                    if (parts.length != 1) {
-                        System.out.println("Invalid number of arguments.");
-                        break;
-                    }
                     stepCount++;
                     executeStep();
                     printInterface();
                     break;
 
                 case "add-task":
-                    if (parts.length != 4){
+                    if (parts.length != 4) {
                         System.out.println("Invalid number of arguments.");
                         break;
                     }
-                    try { // atribuimos valores a 3 variaveis tirado do comando previamente dividido em partes sabendo que a parte 0 vai ser o comando add-task
+                    try {
                         int objId = Integer.parseInt(parts[1]);
                         int endX = Integer.parseInt(parts[2]);
                         int endY = Integer.parseInt(parts[3]);
@@ -82,7 +121,7 @@ public class Project {
                     break;
 
                 case "get-robot":
-                    if (parts.length != 2){
+                    if (parts.length != 2) {
                         System.out.println("Invalid number of arguments.");
                         break;
                     }
@@ -101,29 +140,32 @@ public class Project {
                 default:
                     System.out.println("Unknown utility: " + command + ".");
                     break;
-
             }
         }
     }
 
+    /**
+     * Método executeStep, que avança a simulação um passo, chamando {@link Robot#executeStep} em cada robot.
+     */
     private void executeStep() {
         for (Robot robot : robots) {
             robot.executeStep(this);
         }
     }
 
+    /**
+     * Método newTask, que cria uma nova tarefa para o objeto indicado, validando a sua existência
+     * na grelha e a validade do destino antes de a adicionar à lista.
+     *
+     * @param objId     id do objeto a transportar
+     * @param endX      coordenada X do destino
+     * @param endY      coordenada Y do destino
+     */
     private void newTask(int objId, int endX, int endY) {
         Position objectPosition = findObjectPosition(objId);
         if (objectPosition == null) {
             System.out.println("Object with ID " + objId + " not found.");
             return;
-        }
-
-        for (int i = 0; i < this.tasks.size(); i++) {
-            if (this.tasks.get(i).getObjectId() == objId && this.tasks.get(i).getStatus() != TaskStatus.COMPLETED) {
-                System.out.println("Object already associated to a task.");
-                return;
-            }
         }
 
         if (!isValidDestination(endX, endY)) {
@@ -134,9 +176,17 @@ public class Project {
         Position finalPosition = new Position(endX, endY);
         Task task = new Task(objId, objectPosition, finalPosition);
         this.tasks.add(task);
+        System.out.println("Task created");
     }
 
-    private Position findObjectPosition(int objId) { //???????
+    /**
+     * Método findObjectPosition, que percorre a grelha à procura do objeto com o id indicado
+     * e retorna a sua posição, ou {@code null} se não for encontrado.
+     *
+     * @param objId     id do objeto a localizar
+     * @return          posição do objeto na grelha, ou {@code null} se não existir
+     */
+    private Position findObjectPosition(int objId) {
         String target = "O" + objId;
 
         for (int y = 0; y < initGrid.getHeight(); y++) {
@@ -150,9 +200,15 @@ public class Project {
         return null;
     }
 
-    private void showRobot(int robotId){
+    /**
+     * Método showRobot, que imprime o estado do robot com o id indicado.
+     * Se não for encontrado, imprime mensagem de erro.
+     *
+     * @param robotId   id do robot a mostrar
+     */
+    private void showRobot(int robotId) {
         for (Robot robot : robots) {
-            if(robot.getId() == robotId) {
+            if (robot.getId() == robotId) {
                 System.out.println(robot);
                 return;
             }
@@ -160,19 +216,16 @@ public class Project {
         System.out.println("Robot with ID " + robotId + " not found.");
     }
 
-    private void printHelp(){
+    private void printHelp() {
         System.out.println("[Help - List of commands]");
         System.out.println("help - Show list of commands");
         System.out.println("step - Run next simulation step");
         System.out.println("add-task <obj-id> <dest-x> <dest-y> - Add new task");
         System.out.println("get-robot <id> - Get robot information");
         System.out.println("exit - Exit the simulation");
-
     }
 
-    //???
     private void printInterface() {
-        
         System.out.println("Step count: " + stepCount);
 
         int width = initGrid.getWidth();
@@ -199,13 +252,10 @@ public class Project {
         }
         System.out.println("");
         System.out.println("TASKS");
+        System.out.println("");
         for (int ti = 0; ti < tasks.size(); ti++) {
             Task t = tasks.get(ti);
-            if (t.getStatus() == TaskStatus.COMPLETED) {
-                continue; //tarefas concluidas nao sao mostradas
-            }
-            String owner = " - AVAILABLE";
-            // find owner (simple loop)
+            String owner = "";
             for (int ri = 0; ri < robots.size(); ri++) {
                 Robot r = robots.get(ri);
                 if (r.getCurrentTask() == t) {
@@ -215,47 +265,22 @@ public class Project {
             }
             System.out.println("(O" + t.getObjectId() + " --> " + t.getEnd().getX() + ";" + t.getEnd().getY() + ")" + owner);
         }
-        System.out.println("");
     }
 
     private String cellAt(int x, int y) {
         for (int i = 0; i < robots.size(); i++) {
             Robot r = robots.get(i);
             if (r.getPosition().getX() == x && r.getPosition().getY() == y) {
-                if (r.getState() == RobotState.CHARGING) {
-                    return "C" + r.getId();
-                }
                 return "R" + r.getId();
             }
         }
-        String cell = initGrid.getGridEntity(y - 1, x - 1);
-        //a grelha ainda tem a posicao inicial dos robos, se nenhum robo la esta entao ja saiu
-        if (cell.startsWith("R")) {
-            return "..";
-        }
-        //se o objeto foi apanhado por algum robo, ja nao esta na posicao original
-        if (cell.startsWith("O")) {
-            try {
-                int objId = Integer.parseInt(cell.substring(1));
-                for (int i = 0; i < robots.size(); i++) {
-                    InitObject co = robots.get(i).getCaughtObject();
-                    if (co != null && co.getId() == objId) {
-                        return "..";
-                    }
-                }
-            } catch (NumberFormatException e) {
-                //ignora
-            }
-        }
-        return cell;
+        return initGrid.getGridEntity(y - 1, x - 1);
     }
 
     private boolean isValidDestination(int x, int y) {
         if (x < 1 || y < 1 || x > initGrid.getWidth() || y > initGrid.getHeight()) {
             return false;
         }
-
         return "..".equals(initGrid.getGridEntity(y - 1, x - 1));
     }
-    
 }
