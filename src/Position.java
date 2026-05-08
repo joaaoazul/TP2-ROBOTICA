@@ -1,5 +1,4 @@
 
-// respresentar coordenadas (y,x)
 /**
  * Representa uma posição no tabuleiro, usando as coordenadas (x e y), por meio de váriaveis int.
  * A classe tem um construtor para dar inicio às coordenadas e, usa getters para retornar o valor de cada uma.
@@ -10,7 +9,7 @@ public class Position {
     private int y;
 
     /**
-     * O dito construtor, que recebe as coordenadas (x e y) e as atribui às variáveis da classe.
+     * O construtor que recebe as coordenadas (x e y) e as atribui às variáveis da classe.
      *
      * @param x coordenada horizontal (coluna)
      * @param y coordenada vertical (linha)
@@ -37,7 +36,6 @@ public class Position {
     public int getY(){
         return this.y;
     }
-//??
 
 /**
  * Duas posições são consideradas iguais, se ambas tiverem as mesmas coordenadas (x e y). 

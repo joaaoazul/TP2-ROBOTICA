@@ -1,7 +1,4 @@
 
-// criação da grelha e instalação
-
-
 import java.util.Scanner;
 
 /**
@@ -115,7 +112,7 @@ public class InitGrid {
             int w = Integer.parseInt(values[0]); // largura
             int h = Integer.parseInt(values[1]); // altura
 
-            // Validações do enunciado para não perdermos pontos
+            //validações do enunciado
             if (w < 5 || h < 5) {
                 System.out.println("Minimum dimensions allowed is 5 by 5.");
             } else if (w > 99 || h > 99) {

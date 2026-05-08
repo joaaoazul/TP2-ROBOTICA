@@ -97,7 +97,7 @@ public class CalculatePath {
         visited.add(start);
 
         while (!path.isEmpty()){ 
-            Position current = path.get(path.size() - 1); //a casa onde tamos é a ultima do path //???
+            Position current = path.get(path.size() - 1); //a casa onde tamos é a ultima do path 
             if(current.getX() == end.getX() && current.getY() == end.getY()){ //se chegar ao destino
                 return path;
             }

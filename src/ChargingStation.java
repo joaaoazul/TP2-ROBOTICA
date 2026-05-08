@@ -1,7 +1,4 @@
 
-//representar a estação de carregamento do robo
-//por iteração + 10%
-
 /**
  * Classe que representa a Charging station do Robot, onde o mesmo pode carregar as suas energias.
  * Extende as funções da classe pai Entity mas usa um atributo @param roboId para identificar de que Robot é a estação.

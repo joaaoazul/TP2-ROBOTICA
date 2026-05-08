@@ -11,7 +11,7 @@ public class InputReader {
     private List<Robot> robots = new ArrayList<>();
     private List<InitObject> objects = new ArrayList<>();
 
-    public InputReader(Scanner scanner){
+    public InputReader(Scanner scanner){ 
         this.scanner = scanner;
     }
 

@@ -1,4 +1,3 @@
-//TODO: FALTA SÓ JAVADOCS
 // representar o comportamento autonomo do robo
 
 import java.util.List;
@@ -47,8 +46,8 @@ public class Robot extends Entity {
 
     /**
      * Construtor da Classe que vai criar um novo Robot, numa nova posição.
-     * @param position      Posição inicial do Robot
-     * @param id            Id de identificação único do Robot
+     * @param position              Posição inicial do Robot
+     * @param id                    Id de identificação único do Robot
      * @param chargingStation       Estação de carregamento associada a esse Robot específico, usada em caso de Idle ou Low Charge.
      */
 
@@ -298,9 +297,9 @@ public class Robot extends Entity {
      *
      * <p>Calcula três segmentos para o percurso:</p>
      *      <ol>
-     *          <li>Atual position → object position</li>
-     *          <li>Object position → Task destino</li>
-     *          <li>Task destino → charging station</li>
+     *          <li>Atual position -> object position</li>
+     *          <li>Object position -> Task destino</li>
+     *          <li>Task destino -> charging station</li>
      *          </ol>
      *          <p>O custo total é mostrado por {@code (totalSteps) * 0.5}. Retorna {@code false}
      *          se nenhum segmento tiver um percurso válido.</p>

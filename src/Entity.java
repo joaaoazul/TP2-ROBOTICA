@@ -1,4 +1,3 @@
-//construtor principal da entidade como objeto, obstaculo etc
 
 /**
  * Classe Pai que representa toda e qualquer entidade do nosso projeto, como robôs ou obstáculos, etc.

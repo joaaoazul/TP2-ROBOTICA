@@ -1,6 +1,4 @@
 
-//representar objetos trasportaveis
-
 /**
  * Classe representa o Objeto, recebe as propriedades de objeto da classe Pai Entity, tem um id para identificar o objeto e um boolean para verificar se o objeto esta a ser transportado ou não.
  */

@@ -1,5 +1,4 @@
 // classe central - parte principal do sistema 
-//TODO: FALTA SÓ JAVADOCS
 
 import java.util.ArrayList;
 import java.util.List;
