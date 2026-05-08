@@ -4,11 +4,38 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+
+/**
+ * Classe central do sistema de simulação, responsável por gerir o estado global do projeto.
+ *
+ * <p>Agrega a grelha de simulação ({@link InitGrid}), a lista de robots ({@link Robot})
+ * e a lista de tarefas ({@link Task}), coordenando a interação entre todos através
+ * de um loop de comandos interativo.</p>
+ *
+ * <p>Comandos disponíveis:</p>
+ * <ul>
+ *   <li>{@code step} - avança um passo da simulação</li>
+ *   <li>{@code add-task} - cria uma nova tarefa</li>
+ *   <li>{@code get-robot} - mostra o estado de um robot</li>
+ *   <li>{@code help} - lista os comandos disponíveis</li>
+ *   <li>{@code exit} - termina a simulação</li>
+ * </ul>
+ *
+ */
+
+
 public class Project {
     private int stepCount;
     private List<Robot> robots;
     private List<Task> tasks;
     private InitGrid initGrid;
+
+    /**
+     * Construtor da Classe que inicializa o projeto com a grelha e os robots fornecidos.
+     *
+     * @param initGrid  grelha inicial da simulação
+     * @param robots    lista de robots que vão operar na grelha
+     */
 
     public Project(InitGrid initGrid, List<Robot> robots) {
         this.stepCount = 0; //a contagem de iterações começa a 0 
@@ -16,6 +43,12 @@ public class Project {
         this.robots = robots;
         this.tasks = new ArrayList<>(); //começa com a lista de tarefas vazia
     }
+
+    /**
+     * Getters de InitGrid, Tasks e Robots, respetivamente.
+     * @return
+     */
+
 
     public InitGrid getInitGrid() {
         return this.initGrid;
@@ -29,6 +62,22 @@ public class Project {
         return this.robots;
     }
     
+
+    /**
+     * Método startProject, que inicia o loop interativo da simulação, lendo e processando comandos do utilizador.
+     *
+     * <p>Comandos suportados:</p>
+     * <ul>
+     *   <li>{@code help} - mostra a lista de comandos</li>
+     *   <li>{@code step} - executa um passo e atualiza a interface</li>
+     *   <li>{@code add-task <objId> <destX> <destY>} - cria uma nova tarefa</li>
+     *   <li>{@code get-robot <id>} - mostra o estado do robot com o id indicado</li>
+     *   <li>{@code exit} - termina o loop e encerra a simulação</li>
+     * </ul>
+     *
+     * @param scanner   Scanner para leitura dos comandos do utilizador
+     */
+
     public void startProject(Scanner scanner) {
         boolean active = true;
 
@@ -106,12 +155,23 @@ public class Project {
         }
     }
 
+    /**
+     * Método executeStep, que avança a simulação um passo, chamando {@link Robot#executeStep} em cada robo.
+     */
+
     private void executeStep() {
         for (Robot robot : robots) {
             robot.executeStep(this);
         }
     }
-
+    /**
+     * Método newTask, que cria uma nova tarefa para o objeto indicado, validando a sua existência
+     * na grelha e a validade do destino antes de a adicionar à lista.
+     *
+     * @param objId     id do objeto a transportar
+     * @param endX      coordenada X do destino
+     * @param endY      coordenada Y do destino
+     */
     private void newTask(int objId, int endX, int endY) {
         Position objectPosition = findObjectPosition(objId);
         if (objectPosition == null) {
@@ -135,7 +195,13 @@ public class Project {
         Task task = new Task(objId, objectPosition, finalPosition);
         this.tasks.add(task);
     }
-
+    /**
+     * Método findObjectPosition, que percorre a grelha à procura do objeto com o id indicado
+     * e retorna a sua posição, ou {@code null} se não for encontrado.
+     *
+     * @param objId     id do objeto a localizar
+     * @return          posição do objeto na grelha, ou {@code null} se não existir
+     */
     private Position findObjectPosition(int objId) { //???????
         String target = "O" + objId;
 
@@ -149,7 +215,12 @@ public class Project {
 
         return null;
     }
-
+    /**
+     * Método showRobot, que imprime o estado do robot com o id indicado.
+     * Se não for encontrado, imprime mensagem de erro.
+     *
+     * @param robotId   id do robot a mostrar
+     */
     private void showRobot(int robotId){
         for (Robot robot : robots) {
             if(robot.getId() == robotId) {

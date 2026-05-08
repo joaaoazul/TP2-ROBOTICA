@@ -1,8 +1,30 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-// Valida formato das entidades e requisitos mínimos
-// Validações de coordenadas e dimensões ficam no InitGrid
+
+
+
+/**
+ * Classe responsável pela leitura e validação do input inicial do sistema.
+ *
+ * <p>Lê as dimensões da grelha, as entidades (obstáculos, robots e objetos) e
+ * constrói o {@link Project} pronto a iniciar. Valida o formato das entidades
+ * e requisitos mínimos — validações de coordenadas e dimensões ficam no {@link InitGrid}.</p>
+ *
+ * <p>Entidades suportadas no input:</p>
+ * <ul>
+ *   <li>{@code OBS x y} - obstáculo na posição indicada</li>
+ *   <li>{@code ROB x y csx csy} - robot na posição indicada com estação de carregamento</li>
+ *   <li>{@code OBJ x y} - objeto na posição indicada</li>
+ * </ul>
+ *
+ * @see Project
+ * @see InitGrid
+ * @see Robot
+ */
+
+
+
 
 public class InputReader {
 
@@ -11,11 +33,26 @@ public class InputReader {
     private List<Robot> robots = new ArrayList<>();
     private List<InitObject> objects = new ArrayList<>();
 
+    /**
+     * Construtor da Classe que inicializa o InputReader com o Scanner fornecido.
+     *
+     * @param scanner   Scanner para leitura do input
+     */
+
+
+
     public InputReader(Scanner scanner){ 
         this.scanner = scanner;
     }
 
-    //métodos principais da classe
+    /**
+     * Método principal da classe, que faz toda a leitura completa do input e constrói o {@link Project}.
+     * Lê dimensões, entidades e popula a grelha, terminando com {@code System.exit(0)} se alguma
+     * validação falhar.
+     *
+     * @return  projeto inicializado com a grelha e lista de robots
+     */
+
 
     // é o único público porque vai ser chamado de fora
     public Project projectsEngine(){
@@ -53,6 +90,13 @@ for (int i = 0; i < objects.size(); i++) {
 
     }
 
+    /**
+     * Método dimensionsEngine, que lê e valida as dimensões da grelha a partir do input.
+     * As dimensões têm que estar entre 5x5 e 99x99, inclusive.
+     *
+     * @return  array {@code int[]{width, height}} ou {@code null} se inválido
+     */
+
     private int[] dimensionsEngine(){
         //recebe os números em string, separa-os e guarda nesse array
         String line = scanner.nextLine();
@@ -81,7 +125,14 @@ for (int i = 0; i < objects.size(); i++) {
             return null;
         }
     }
-
+    /**
+     * Método entityEngine, que lê as entidades linha a linha até encontrar o comando {@code start},
+     * criando obstáculos, robots e objetos conforme o tipo indicado.
+     * Termina com {@code System.exit(0)} se encontrar entidade desconhecida ou lista inválida.
+     *
+     * @param width     largura da grelha, para validação de coordenadas
+     * @param height    altura da grelha, para validação de coordenadas
+     */
     private void entityEngine(int width, int height){
         int entityCounter = 0;
         int robotCounter = 0;
@@ -130,6 +181,17 @@ for (int i = 0; i < objects.size(); i++) {
         }
     }
 
+    /**
+     * Método obstacleEngine, que valida e cria um {@link Obstacle} a partir das partes do input.
+     *
+     * @param parts         array com o tipo e coordenadas ({@code OBS x y})
+     * @param entityCounter índice da entidade atual, usado nas mensagens de erro
+     * @param width         largura da grelha
+     * @param height        altura da grelha
+     * @return              obstáculo criado, ou {@code null} se inválido
+     */
+
+
     private Obstacle obstacleEngine(String[] parts, int entityCounter, int width, int height){
         if(parts.length != 3) {
             System.out.println("Invalid entity format at entity " + entityCounter + ".");
@@ -154,6 +216,17 @@ for (int i = 0; i < objects.size(); i++) {
         }
     }
 
+    /**
+     * Método objectEngine, que valida e cria um {@link InitObject} a partir das partes do input.
+     *
+     * @param parts         array com o tipo e coordenadas ({@code OBJ x y})
+     * @param entityCounter índice da entidade atual, usado nas mensagens de erro
+     * @param width         largura da grelha
+     * @param height        altura da grelha
+     * @param objectId      id sequencial atribuído ao objeto
+     * @return              objeto criado, ou {@code null} se inválido
+     */
+
     private InitObject objectEngine(String[] parts, int entityCounter, int width, int height, int objectId) {
         if(parts.length != 3) {
             System.out.println("Invalid entity format at entity " + entityCounter + ".");
@@ -177,6 +250,18 @@ for (int i = 0; i < objects.size(); i++) {
             return null;
         }
     }
+
+    /**
+     * Método roboEngine, que valida e cria um {@link Robot} com a respetiva {@link ChargingStation}
+     * a partir das partes do input.
+     *
+     * @param parts         array com o tipo, coordenadas do robot e da estação ({@code ROB x y csx csy})
+     * @param entityCounter índice da entidade atual, usado nas mensagens de erro
+     * @param width         largura da grelha
+     * @param height        altura da grelha
+     * @param robotId       id sequencial atribuído ao robot
+     * @return              robot criado, ou {@code null} se inválido
+     */
 
     private Robot roboEngine(String[] parts, int entityCounter, int width, int height, int robotId) {
         if(parts.length != 5) {
@@ -208,7 +293,7 @@ for (int i = 0; i < objects.size(); i++) {
         }
     }
 
-    //métodos de apoio
+    //metodos de apoio
     private boolean validationHelper(int x, int y, int width, int height){
         return x >= 1 && y >= 1 && x <= width && y <= height;
     }
