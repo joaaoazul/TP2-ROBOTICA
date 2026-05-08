@@ -1,39 +1,45 @@
-
 //representar a estação de carregamento do robo
 //por iteração + 10%
 
 /**
- * Classe que representa a Charging station do Robot, onde o mesmo pode carregar as suas energias.
- * Extende as funções da classe pai Entity mas usa um atributo @param roboId para identificar de que Robot é a estação.
+ * Classe que representa a estação de carregamento associada a um {@link Robot}.
+ *
+ * <p>Extende {@link Entity} para herdar a posição na grelha. Cada estação está
+ * ligada a um robot específico através do seu id, sendo o símbolo na grelha
+ * composto por "S" seguido do id do robot.</p>
+ *
+ * @see Robot
+ * @see Entity
  */
 public class ChargingStation extends Entity {
 
-    /**@param roboId para identificar a estação e o Robot */
     private final int roboId;
 
     /**
-     * Construtor da classe, recebe a posição da estação através de super Position e o roboId para identificar a estação.
+     * Construtor da Classe que cria uma nova estação de carregamento na posição indicada.
+     *
+     * @param position  posição da estação na grelha
+     * @param roboId    id do robot ao qual esta estação pertence
      */
-    public ChargingStation(Position position, int roboId){
+    public ChargingStation(Position position, int roboId) {
         super(position);
-        this.roboId = roboId; 
+        this.roboId = roboId;
     }
 
     /**
-     * Método @param getRoboId para retornar o roboId da estação.
+     * Getter de RoboId.
+     * @return
      */
-
-    public int getRoboId () {
+    public int getRoboId() {
         return this.roboId;
     }
 
     /**
-     * Override do método @param getSymbol para devolver o símbolo da estação, neste caso "S", seguido do roboId para identificar qual é o robot que pertence a esta estação.
+     * Override do método getSymbol, devolve o símbolo da estação na grelha.
+     * @return
      */
-    
     @Override
-    public String getSymbol(){
+    public String getSymbol() {
         return "S" + roboId;
     }
-
 }
