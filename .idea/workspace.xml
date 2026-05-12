@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="5bfb5655-e9a5-4530-90bf-48cfa3150a0b" name="Changes" comment="Add Javadoc comments to ChargingStation, InputReader, Project, and Task classes for improved documentation">
+      <change beforePath="$PROJECT_DIR$/src/InputReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/InputReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Project.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Project.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Task.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_C:/Users/joaoa/Documents/GitHub/TP2-ROBOTICA" value="3D1q07qdONJX7gi2WXC6uyJUM0Q" />
+    </persistenceIdMap>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;history&quot;: [
+    {
+      &quot;assignee&quot;: &quot;joaaoazul&quot;
+    }
+  ],
+  &quot;lastFilter&quot;: {
+    &quot;assignee&quot;: &quot;joaaoazul&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/joaaoazul/TP2-ROBOTICA.git&quot;,
+    &quot;accountId&quot;: &quot;237ded53-9cce-4d60-a044-4dc8d878bce1&quot;
+  }
+}</component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0,
+  &quot;fromUser&quot;: false
+}</component>
+  <component name="ProjectId" id="3D1q07qdONJX7gi2WXC6uyJUM0Q" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.InitGrid.executor&quot;: &quot;Run&quot;,
+    &quot;JavaScript Debug.CalculatePath.html.executor&quot;: &quot;Run&quot;,
+    &quot;JavaScript Debug.help-doc.html.executor&quot;: &quot;Run&quot;,
+    &quot;JavaScript Debug.index.html.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Merging final&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/joaoa/Documents/GitHub/TP2-ROBOTICA&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.32098.37" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.32098.37" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5bfb5655-e9a5-4530-90bf-48cfa3150a0b" name="Changes" comment="" />
+      <created>1777459697795</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1777459697795</updated>
+      <workItem from="1777459699021" duration="1398000" />
+      <workItem from="1777479541737" duration="5781000" />
+      <workItem from="1777540538482" duration="1548000" />
+      <workItem from="1777627375088" duration="4827000" />
+      <workItem from="1777649334640" duration="1834000" />
+      <workItem from="1777717562581" duration="484000" />
+      <workItem from="1777718077971" duration="6286000" />
+      <workItem from="1777739101592" duration="6434000" />
+      <workItem from="1777814575352" duration="1326000" />
+      <workItem from="1777915803689" duration="3204000" />
+      <workItem from="1777929271716" duration="37000" />
+      <workItem from="1777974877317" duration="2690000" />
+      <workItem from="1778007321906" duration="491000" />
+      <workItem from="1778061629886" duration="8543000" />
+      <workItem from="1778255005779" duration="2455000" />
+      <workItem from="1778577864177" duration="1547000" />
+      <workItem from="1778600879623" duration="350000" />
+    </task>
+    <task id="LOCAL-00001" summary="Enhance input validation comments in InputReader.java">
+      <option name="closed" value="true" />
+      <created>1777459870486</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1777459870486</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Refactor entity structure and add position management in Entity class">
+      <option name="closed" value="true" />
+      <created>1777481199572</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1777481199573</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Add roboId to ChargingStation and implement constructor; update Obstacle constructor">
+      <option name="closed" value="true" />
+      <created>1777482076336</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1777482076336</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Add Robot class with state and phase management; introduce enums for RobotState and TaskStatus">
+      <option name="closed" value="true" />
+      <created>1777484835644</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1777484835644</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Add TODOs for getters, setters, and logic methods in Robot class">
+      <option name="closed" value="true" />
+      <created>1777484985565</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1777484985565</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Add InputReader class for input handling and validation; implement constructor and methods for reading project and dimensions">
+      <option name="closed" value="true" />
+      <created>1777650512028</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1777650512028</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Add TODO for implementing logic methods in InputReader class">
+      <option name="closed" value="true" />
+      <created>1777650550509</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1777650550509</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Add entity parsing methods and validation in InputReader class; implement Position getters">
+      <option name="closed" value="true" />
+      <created>1777742867642</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1777742867642</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Refactor InputReader methods for clarity; rename parsing methods and improve error messages">
+      <option name="closed" value="true" />
+      <created>1777815274765</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1777815274765</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Refactor InputReader and Robot classes for improved readability; update loop structures and add Javadoc comments">
+      <option name="closed" value="true" />
+      <created>1777929089191</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1777929089192</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Add detailed Javadoc comments to Robot class methods for improved documentation">
+      <option name="closed" value="true" />
+      <created>1778068215851</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1778068215851</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Add Javadoc comments to ChargingStation, InputReader, Project, and Task classes for improved documentation">
+      <option name="closed" value="true" />
+      <created>1778255750786</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1778255750787</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Add Javadoc comments to ChargingStation, InputReader, Project, and Task classes for improved documentation">
+      <option name="closed" value="true" />
+      <created>1778257741973</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1778257741973</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Enhance input validation comments in InputReader.java" />
+    <MESSAGE value="Refactor entity structure and add position management in Entity class" />
+    <MESSAGE value="Add roboId to ChargingStation and implement constructor; update Obstacle constructor" />
+    <MESSAGE value="Add Robot class with state and phase management; introduce enums for RobotState and TaskStatus" />
+    <MESSAGE value="Add TODOs for getters, setters, and logic methods in Robot class" />
+    <MESSAGE value="Add InputReader class for input handling and validation; implement constructor and methods for reading project and dimensions" />
+    <MESSAGE value="Add TODO for implementing logic methods in InputReader class" />
+    <MESSAGE value="Add entity parsing methods and validation in InputReader class; implement Position getters" />
+    <MESSAGE value="Refactor InputReader methods for clarity; rename parsing methods and improve error messages" />
+    <MESSAGE value="Refactor InputReader and Robot classes for improved readability; update loop structures and add Javadoc comments" />
+    <MESSAGE value="Add detailed Javadoc comments to Robot class methods for improved documentation" />
+    <MESSAGE value="Add Javadoc comments to ChargingStation, InputReader, Project, and Task classes for improved documentation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Javadoc comments to ChargingStation, InputReader, Project, and Task classes for improved documentation" />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>
